@@ -11,7 +11,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -51,12 +54,22 @@ public class SportwiseContext {
         }
         return ds;
     }
-	
-	
 
     @Bean
     public PlatformTransactionManager txManager() {
         return new DataSourceTransactionManager(dataSource());
+    }
+    
+    @Bean
+    public DataSourceInitializer dataSourceInitializer(final DataSource dataSource) {
+    final DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
+    dataSourceInitializer.setDataSource(dataSource);
+    ResourceDatabasePopulator dbPopulator = new ResourceDatabasePopulator();
+    dbPopulator.addScripts(new ClassPathResource("db/schema.sql"), new ClassPathResource("db/initial-data.sql"));
+    dbPopulator.setSeparator("@@");
+    dataSourceInitializer.setDatabasePopulator(dbPopulator);
+    dataSourceInitializer.setEnabled(Boolean.TRUE);
+    return dataSourceInitializer;
     }
 
 }

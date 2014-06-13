@@ -9,10 +9,11 @@
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
 		<java-version>1.6</java-version>
-		<org.springframework-version>3.2.6.RELEASE</org.springframework-version>
+		<org.springframework-version>4.0.3.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 		<c3p0-version>0.9.1.2</c3p0-version>
+		<jackson.version>2.0.4</jackson.version>
 	</properties>
 	<dependencies>
 		<!-- Spring -->
@@ -34,6 +35,17 @@
             <artifactId>spring-web</artifactId>
             <version>${org.springframework.version}</version>
         </dependency> -->
+        
+        <dependency>
+    		<groupId>com.fasterxml.jackson.core</groupId>
+    		<artifactId>jackson-databind</artifactId>
+    		<version>${jackson.version}</version>
+	    </dependency>
+		<dependency>
+    		<groupId>com.fasterxml.jackson.core</groupId>
+    		<artifactId>jackson-core</artifactId>
+    		<version>${jackson.version}</version>
+		</dependency>
         <dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -55,7 +67,11 @@
 			<artifactId>c3p0</artifactId>
 			<version>${c3p0-version}</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901-1.jdbc4</version>
+		</dependency>
 				
 		<!-- AspectJ -->
 		<dependency>
@@ -117,8 +133,8 @@
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
