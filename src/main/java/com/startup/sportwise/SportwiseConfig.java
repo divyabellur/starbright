@@ -18,6 +18,7 @@ public class SportwiseConfig extends WebMvcConfigurerAdapter {
         configurer.enable();
     }
  
+      // Enable this to render jsp views.
 //    @Bean
 //    public InternalResourceViewResolver getInternalResourceViewResolver() {
 //        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
@@ -26,15 +27,7 @@ public class SportwiseConfig extends WebMvcConfigurerAdapter {
 //        resolver.setSuffix(".jsp");
 //        return resolver;
 //    }
-    
-//    @Bean
-//    public UrlBasedViewResolver getUrlBasedViewResolver() {
-//    	  UrlBasedViewResolver resolver = new UrlBasedViewResolver();
-//        resolver.setPrefix("/resources/webui/");
-//        resolver.setSuffix(".html");
-//        return resolver;
-//    }
-    
+        
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/**");

@@ -59,41 +59,44 @@ Ext.application({
     launch: function() {
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
+        console.log ('Application is loading');
+        Ext.Viewport.add(Ext.create('sportwise.view.Main'));
+        Ext.Viewport.add(Ext.create('sportwise.view.register'));
+        Ext.Viewport.add(Ext.create('sportwise.view.signin'));
         
-        var userinfo = Ext.getStore('sportwiseusers');
-        userinfo.load();
-        if (userinfo.getCount() > 0) {
-        	var totalCount = userinfo.getCount();
-        	var aRecord = userinfo.getAt(totalCount - 1);
-        	 //console.log('sign in active: '+ aRecord.get('SignInActive'));
-             var data =  aRecord.get('SignInActive');
-
-             if (data == true)
-             	{
-             		console.log('user already signed in');
-             	}
-             else{
-             	console.log ('user not signed in');
-                 Ext.Viewport.add(Ext.create('sportwise.view.Main'));
-                 Ext.Viewport.add(Ext.create('sportwise.view.register'));
-                 Ext.Viewport.add(Ext.create('sportwise.view.signin'));
-             }
-        }  else {
-        	
-        	console.log('localStorage data not found');
-            Ext.Viewport.add(Ext.create('sportwise.view.Main'));
-            Ext.Viewport.add(Ext.create('sportwise.view.register'));
-            Ext.Viewport.add(Ext.create('sportwise.view.signin'));
-        }
-        
-        
- 		Ext.Viewport.add(Ext.create('sportwise.view.userhomeview'));
-        Ext.Viewport.add(Ext.create('sportwise.view.courtsearch'));
-        Ext.Viewport.add(Ext.create('sportwise.view.checkinstatus'));
-        Ext.Viewport.add(Ext.create('sportwise.view.contactus'));
-        Ext.Viewport.add(Ext.create('sportwise.view.userprofile'));
-        Ext.Viewport.add(Ext.create('sportwise.view.courtmap'));
-       
+//        var userinfo = Ext.getStore('sportwiseusers');
+//        userinfo.load();
+//        if (userinfo.getCount() > 0) {
+//        	var totalCount = userinfo.getCount();
+//        	var aRecord = userinfo.getAt(totalCount - 1);
+//        	 //console.log('sign in active: '+ aRecord.get('SignInActive'));
+//             var data =  aRecord.get('SignInActive');
+//
+//             if (data == true)
+//             	{
+//             		console.log('user already signed in');
+//             	}
+//             else{
+//             	console.log ('user not signed in');
+//                 Ext.Viewport.add(Ext.create('sportwise.view.Main'));
+//                 Ext.Viewport.add(Ext.create('sportwise.view.register'));
+//                 Ext.Viewport.add(Ext.create('sportwise.view.signin'));
+//             }
+//        }  else {        	
+//        	console.log('localStorage data not found');
+//            Ext.Viewport.add(Ext.create('sportwise.view.Main'));
+//            Ext.Viewport.add(Ext.create('sportwise.view.register'));
+//            Ext.Viewport.add(Ext.create('sportwise.view.signin'));
+//        }
+//        
+//        
+// 		Ext.Viewport.add(Ext.create('sportwise.view.userhomeview'));
+//        Ext.Viewport.add(Ext.create('sportwise.view.courtsearch'));
+//        Ext.Viewport.add(Ext.create('sportwise.view.checkinstatus'));
+//        Ext.Viewport.add(Ext.create('sportwise.view.contactus'));
+//        Ext.Viewport.add(Ext.create('sportwise.view.userprofile'));
+//        Ext.Viewport.add(Ext.create('sportwise.view.courtmap'));
+//       
 
         // Initialize views
 

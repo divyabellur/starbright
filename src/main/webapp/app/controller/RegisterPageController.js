@@ -32,22 +32,18 @@ Ext.define('sportwise.controller.RegisterPageController', {
     		return;
     	}
     	
-
-        
-    	
     	me.registerSuccess(name, email);
-    	/*
     	RegisterPage.setMasked({
     		xtype: 'loadmask',
     		message: 'Registering...'
     	}),
     	
     	Ext.Ajax.request({
-    		url:
+    		url:'/sportwise/account',
     		method: 'post',
     		params: {
-    			username: name,
-    			useremail: email, 
+    			userName: name,
+    			userEmail: email, 
     		},
     		success: function(response){
     			
@@ -66,7 +62,7 @@ Ext.define('sportwise.controller.RegisterPageController', {
     			me.registerFailure('Registration failed. Please try again later.');
     		}
     		
-    	});*/
+    	});
     	
     	},
     	

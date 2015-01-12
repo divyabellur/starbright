@@ -3,7 +3,8 @@
 CREATE TABLE account (
 id SERIAL PRIMARY KEY,
 display_name VARCHAR(100) NOT NULL,
-email VARCHAR(100) NOT NULL
+email VARCHAR(100) NOT NULL,
+CONSTRAINT uc_name_email UNIQUE(display_name,email)
 );
 @@
 

@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Creates and/or destroys the Sportwise prod and test databases
+# CREATE DATABASE sportwise WITH OWNER = postgres ENCODING = 'UTF8' LC_COLLATE = 'en_US.UTF-8' LC_CTYPE = 'en_US.UTF-8' CONNECTION LIMIT = -1;
+# DROP DATABASE IF EXISTS sportwise;
 
 target_user=postgres
 target_password=miadmin
@@ -22,7 +24,7 @@ fi
 
 usage()
 {
-    echo "Usage: initdb.sh [--drop][--recreate-test][--cleandb]"
+    echo "Usage: initdb.sh [--drop][--recreate-test][--recreate][--cleandb]"
 }
 
 run_sql()
@@ -60,30 +62,14 @@ setup_schema_for_test_db() {
 setup_data_for_test_db() {
 	$psql_command -h $db_hostname -U $dev_user -d $target_test_db -f ~/mycode/starbright/src/main/resources/db/initial-data.sql;
 }
-create_file_fdw_ext_server()
-{
-    hst=$1
-    db=$2
-
-    # If it's a Mac, don't do anything (for now!)
-    if [ "$(uname -s)" = "Darwin" ]; then
-        return
-    fi
-
-    if [ "$BUILD_NUMBER" = "" ]; then
-        usr=$dev_user
-		
-    fi
-
-    $psql_command -h $hst -U $usr -d $db -c "CREATE EXTENSION IF NOT EXISTS file_fdw;"
-    $psql_command -h $hst -U $usr -d $db -c "CREATE SERVER logserver FOREIGN DATA WRAPPER file_fdw;"
-}
 
 #
 # MAIN
 #
 drop_only=0
 recreate=0
+dropAndRecreate=0
+recreateWithSchema=0
 while [ "$1" != "" ]; do
 	case $1 in
         --drop)
@@ -92,6 +78,9 @@ while [ "$1" != "" ]; do
         --recreate)
             recreate=1
             ;;
+        --recreateWithSchema)
+        	recreateWithSchema=1
+        	;;         
         -h|--help)
             usage
             exit 0
@@ -103,32 +92,19 @@ while [ "$1" != "" ]; do
     shift
 done
    
-if [ $recreate -eq 1 ]; then
+if [ $recreate -eq 1 ]
+then
     drop_db $target_test_db
     drop_db $target_prod_db
     create_db $target_prod_db $target_user
 	create_db $target_test_db $target_user
-    create_file_fdw_ext_server $db_hostname $target_test_db
-else
-	if [ $drop_only -eq 0 ]; then
-	    echo "Initializing database - ignore any ERROR messages regarding non-existent role"
-	else
-	    echo "Dropping database - ignore any ERROR messages regarding non-existent role"
-	fi
-	
-	terminate_backend $target_prod_db
-	terminate_backend $target_test_db
-	drop_db $target_prod_db
-	drop_db $target_test_db
-	if [ $drop_only -eq 0 ]; then
-	    run_sql "CREATE ROLE $target_user LOGIN PASSWORD '$target_password' $target_user_flags;"
-	    create_db $target_prod_db $target_user
-	    create_db $target_test_db $target_user
-	    echo "Running schema.sql for test db"
-	    setup_schema_for_test_db
-	    echo "Running initial-data.sql for test db"
-	    setup_data_for_test_db
-        create_file_fdw_ext_server $db_hostname $target_prod_db
-        create_file_fdw_ext_server $db_hostname $target_test_db
-	fi
+elif [ $drop_only -eq 1 ]
+then
+		terminate_backend $target_prod_db
+		terminate_backend $target_test_db
+	    drop_db $target_test_db
+    	drop_db $target_prod_db
+else 
+	usage
+	echo "Thank You!"
 fi

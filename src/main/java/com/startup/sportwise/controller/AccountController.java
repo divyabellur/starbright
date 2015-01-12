@@ -39,7 +39,7 @@ public class AccountController {
 
 	@RequestMapping(value = "/account", method = RequestMethod.POST)
 	@ResponseBody
-	public WebResponse<Boolean> createAccount(@RequestParam("displayName") String displayName, @RequestParam("email") String email) {
+	public WebResponse<Boolean> createAccount(@RequestParam("userName") String displayName, @RequestParam("userEmail") String email) {
 
 		User newUser = new User(displayName, email);
 		final int count = this.accountService.addAccount(newUser);
